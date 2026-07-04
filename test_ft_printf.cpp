@@ -1,4 +1,3 @@
-// test_ft_printf.cpp - FIXED VERSION
 #include <gtest/gtest.h>
 #include <string>
 #include <cstdio>
@@ -466,17 +465,15 @@ TEST_F(PrintfTest, EdgeCasesString) {
 
 
 // ============================================================================
-// 1. MULTIPLE CONVERSIONS WITH DIFFERENT TYPES
+// MULTIPLE CONVERSIONS WITH DIFFERENT TYPES
 // ============================================================================
 
 TEST_F(PrintfTest, MultipleConversionsBasic) {
-    // Basic mixed types
     assert_printf_equal("%d %s %x %c", 42, "hello", 255, 'A');
     assert_printf_equal("%c %d %s %x", 'Z', 123, "world", 0xabc);
     assert_printf_equal("%s %c %x %d", "test", 'B', 0xff, -42);
     assert_printf_equal("%x %d %c %s", 0x123, -999, 'C', "foo");
 }
-
 TEST_F(PrintfTest, MultipleConversionsWithPointers) {
     int x = 42;
     int y = 123;
@@ -495,7 +492,7 @@ TEST_F(PrintfTest, MultipleConversionsWithUnsigned) {
 }
 
 // ============================================================================
-// 2. MULTIPLE CONVERSIONS WITH WIDTH
+// MULTIPLE CONVERSIONS WITH WIDTH
 // ============================================================================
 
 TEST_F(PrintfTest, MultipleConversionsWidth) {
@@ -518,7 +515,7 @@ TEST_F(PrintfTest, MultipleConversionsZeroPadding) {
 }
 
 // ============================================================================
-// 3. MULTIPLE CONVERSIONS WITH PRECISION
+// MULTIPLE CONVERSIONS WITH PRECISION
 // ============================================================================
 
 TEST_F(PrintfTest, MultipleConversionsPrecision) {
@@ -542,7 +539,7 @@ TEST_F(PrintfTest, MultipleConversionsLeftJustifyWidthPrecision) {
 }
 
 // ============================================================================
-// 4. MULTIPLE CONVERSIONS WITH HASH FLAG (#)
+// MULTIPLE CONVERSIONS WITH HASH FLAG (#)
 // ============================================================================
 
 TEST_F(PrintfTest, MultipleConversionsHash) {
@@ -554,7 +551,7 @@ TEST_F(PrintfTest, MultipleConversionsHash) {
 }
 
 // ============================================================================
-// 5. MULTIPLE CONVERSIONS WITH PLUS (+) AND SPACE ( ) FLAGS
+// MULTIPLE CONVERSIONS WITH PLUS (+) AND SPACE ( ) FLAGS
 // ============================================================================
 
 TEST_F(PrintfTest, MultipleConversionsPlusSpace) {
@@ -571,7 +568,7 @@ TEST_F(PrintfTest, MultipleConversionsPlusSpaceMixed) {
 }
 
 // ============================================================================
-// 6. MIXED WIDTH, PRECISION, AND FLAGS
+// MIXED WIDTH, PRECISION, AND FLAGS
 // ============================================================================
 
 TEST_F(PrintfTest, MixedWidthPrecisionFlags) {
@@ -595,7 +592,7 @@ TEST_F(PrintfTest, MixedFlagsAllConversions) {
 }
 
 // ============================================================================
-// 7. MULTIPLE CONVERSIONS WITH STAR WIDTH AND PRECISION
+// MULTIPLE CONVERSIONS WITH STAR WIDTH AND PRECISION
 // ============================================================================
 
 TEST_F(PrintfTest, MultipleStarWidth) {
@@ -617,7 +614,7 @@ TEST_F(PrintfTest, MultipleStarWidthAndPrecision) {
 }
 
 // ============================================================================
-// 8. COMPLEX MIXED CONVERSIONS WITH BOUNDARY VALUES
+// COMPLEX MIXED CONVERSIONS WITH BOUNDARY VALUES
 // ============================================================================
 
 TEST_F(PrintfTest, ComplexBoundaryValues) {
@@ -645,7 +642,7 @@ TEST_F(PrintfTest, ComplexWithNullStrings) {
 }
 
 // ============================================================================
-// 9. RANDOM COMBINATIONS
+// RANDOM COMBINATIONS
 // ============================================================================
 
 TEST_F(PrintfTest, RandomCombinations1) {
@@ -691,7 +688,7 @@ TEST_F(PrintfTest, RandomCombinations5) {
 }
 
 // ============================================================================
-// 10. MULTIPLE CONVERSIONS WITH PERCENT SIGN
+// MULTIPLE CONVERSIONS WITH PERCENT SIGN
 // ============================================================================
 
 TEST_F(PrintfTest, MultipleWithPercent) {
@@ -702,7 +699,7 @@ TEST_F(PrintfTest, MultipleWithPercent) {
 }
 
 // ============================================================================
-// 11. VERY LONG COMPLEX STRINGS
+// VERY LONG COMPLEX STRINGS
 // ============================================================================
 
 TEST_F(PrintfTest, VeryLongComplex) {
@@ -715,7 +712,7 @@ TEST_F(PrintfTest, VeryLongComplex) {
 }
 
 // ============================================================================
-// 12. EDGE CASES WITH COMBINATIONS
+// EDGE CASES WITH COMBINATIONS
 // ============================================================================
 
 TEST_F(PrintfTest, EdgeCasesCombined) {
@@ -727,7 +724,7 @@ TEST_F(PrintfTest, EdgeCasesCombined) {
     assert_printf_equal("%0d %0x %0s %0c", 42, 255, "test", 'A');
     assert_printf_equal("%00d %00x %00s %00c", 42, 255, "hello", 'B');
 
-    // Negative flags with mixed types
+    // Minus flags with mixed types
     assert_printf_equal("%-020d %0-20x %0-20s %-020c", 42, 255, "world", 'A');
     assert_printf_equal("%0-10.5d %-#010x %-20s %-5c", 42, 255, "test", 'B');
 	int a = 5;
@@ -735,7 +732,7 @@ TEST_F(PrintfTest, EdgeCasesCombined) {
 }
 
 // ============================================================================
-// 13. ALL CONVERSIONS WITH ALL FLAGS COMBINED
+// ALL CONVERSIONS WITH ALL FLAGS COMBINED
 // ============================================================================
 
 TEST_F(PrintfTest, AllConversionsAllFlags) {
@@ -757,7 +754,7 @@ TEST_F(PrintfTest, AllConversionsAllFlags) {
 }
 
 // ============================================================================
-// 14. RETURN VALUE COMPLEX TESTS
+// RETURN VALUE COMPLEX TESTS
 // ============================================================================
 
 TEST_F(PrintfTest, ReturnValueComplex) {
@@ -772,42 +769,13 @@ TEST_F(PrintfTest, ReturnValueComplex) {
 }
 
 // ============================================================================
-// 15. STRESS TEST - MANY CONVERSIONS
+// STRESS TEST - MANY CONVERSIONS
 // ============================================================================
 
 TEST_F(PrintfTest, StressTestManyConversions) {
     assert_printf_equal(
-        "%d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-    );
-
-    assert_printf_equal(
-        "%s %s %s %s %s %s %s %s %s %s",
-        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j"
-    );
-
-    assert_printf_equal(
-        "%c %c %c %c %c %c %c %c %c %c",
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'
-    );
-
-    assert_printf_equal(
-        "%x %x %x %x %x %X %X %X %X %X",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-    );
-}
-
-TEST_F(PrintfTest, StressTestManyMixed) {
-    assert_printf_equal(
-        "%d %s %x %c %d %s %x %c %d %s %x %c %d %s %x %c",
-        1, "one", 0x1, 'A', 2, "two", 0x2, 'B', 3, "three", 0x3, 'C', 4, "four", 0x4, 'D'
-    );
-}
-
-TEST_F(PrintfTest, StressTestManyFlags) {
-    assert_printf_equal(
-        "%+d % d %#x %#X %u %c %s %p %+d % d %#x %#X",
-        1, 1, 1, 1, 1, 'A', "one", (void*)0x1, 2, 2, 2, 2
+        "%-12.3d ffwfwfgrw %020dwgwrrgrwggr grwgw  %#49.1drfjjfjsjff \n %+-3d \tfdadfdfafd\t%dffdwgwwrg %drgwrwgw %dgrwrg %d %dwrgwgrrwrwvw %dfg4244g242g24g2 %s-+#-%s%-020s%s+ #%+20.2s48i4284%s %s %s %s %s %c %c %c %12.43c %c %c %c %c %c %c %x %x %x %x %x %X %X-54=+%-020.2X0- %Xfqfejiefjifejf%X",
+        1000, -22131, 345522, -43535, 5, 6, 79000, 800000, 912, 101, "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',  132245, 315432, 34553, 1, -1, 643431, 7566664, 999999, 10000, 0
     );
 }
 
