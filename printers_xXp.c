@@ -6,7 +6,7 @@
 /*   By: smilch <smilch@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 14:36:22 by smilch            #+#    #+#             */
-/*   Updated: 2026/07/04 18:12:05 by smilch           ###   ########.fr       */
+/*   Updated: 2026/07/04 20:45:30 by smilch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ void	print_xX(t_flags *flags, va_list args, int *len, char *base)
 		flags->padder = ' ';
 	flags->width -= flags->hash;
 	*len += flags->hash;
-	if (flags->padder == '0')
+	if (flags->padder == '0' && !flags->minus)
 		flags->prec = flags->width;
+	else if (flags->padder == '0')
+		flags->padder = ' ';
 	s = ft_itoa_u_base(nbr, base);
 	if (!s || (nbr == 0 && flags->prec == 0))
 		s = "";
@@ -77,8 +79,10 @@ void	print_pointer(t_flags *flags, va_list args, int *len)
 		flags->padder = ' ';
 	flags->width -= flags->hash;
 	*len += flags->hash;
-	if (flags->padder == '0')
+	if (flags->padder == '0' && !flags->minus)
 		flags->prec = flags->width;
+	else if (flags->padder == '0')
+		flags->padder = ' ';
 	s = ft_itoa_u_base(nbr, "0123456789abcdef");
 	if (!s || (nbr == 0 && flags->prec == 0))
 		s = "";

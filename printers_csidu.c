@@ -6,7 +6,7 @@
 /*   By: smilch <smilch@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 14:36:22 by smilch            #+#    #+#             */
-/*   Updated: 2026/07/04 17:37:44 by smilch           ###   ########.fr       */
+/*   Updated: 2026/07/04 18:39:29 by smilch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	print_int(t_flags *flags, va_list args, int *len)
 	long	nbr;
 
 	nbr = (long int)va_arg(args, int);
-	s = ft_itoa_u(nbr);
+	s = ft_itoa_u_base((((nbr >> 63) ^ (nbr)) - (nbr >> 63)), "0123456789");
 	if (!s || (nbr == 0 && flags->prec == 0))
 		s = "";
 	if (nbr < 0)
