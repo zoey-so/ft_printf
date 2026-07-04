@@ -6,7 +6,7 @@
 /*   By: smilch <smilch@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 14:36:22 by smilch            #+#    #+#             */
-/*   Updated: 2026/07/04 21:48:18 by smilch           ###   ########.fr       */
+/*   Updated: 2026/07/04 22:37:28 by smilch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	print_hex(t_flags *flags, int *len, char *base, char *s)
 			ft_putchar_fd('0', 1);
 		write(1, s, flags->s_len);
 	}
+	free(s);
 }
 
 void	print_x(t_flags *flags, va_list args, int *len, char *base)
@@ -54,9 +55,12 @@ void	print_x(t_flags *flags, va_list args, int *len, char *base)
 	*len += flags->hash;
 	if (flags->padder == '0')
 		flags->prec = flags->width;
-	s = ft_itoa_u_base(nbr, base);
-	if (!s || (nbr == 0 && flags->prec == 0))
-		s = "";
+	if (nbr == 0 && flags->prec == 0)
+		s = ft_strdup("");
+	else
+		s = ft_itoa_u_base(nbr, base);
+	if (!s)
+		return ;
 	flags->s_len = (int)ft_strlen(s);
 	if (flags->prec > flags->s_len)
 		flags->width -= flags->prec;
@@ -79,9 +83,12 @@ void	print_pointer(t_flags *flags, va_list args, int *len)
 	*len += flags->hash;
 	if (flags->padder == '0')
 		flags->prec = flags->width;
-	s = ft_itoa_u_base(nbr, "0123456789abcdef");
-	if (!s || (nbr == 0 && flags->prec == 0))
-		s = "";
+	if (nbr == 0 && flags->prec == 0)
+		s = ft_strdup("");
+	else
+		s = ft_itoa_u_base(nbr, "0123456789abcdef");
+	if (!s)
+		return ;
 	flags->s_len = (int)ft_strlen(s);
 	if (flags->prec > flags->s_len)
 		flags->width -= flags->prec;

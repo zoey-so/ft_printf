@@ -6,7 +6,7 @@
 /*   By: smilch <smilch@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 14:36:22 by smilch            #+#    #+#             */
-/*   Updated: 2026/07/04 21:42:44 by smilch           ###   ########.fr       */
+/*   Updated: 2026/07/04 22:36:25 by smilch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void	print_char(t_flags *flags, va_list args, int *len)
 
 void	print_dec(t_flags *flags, char *s, int *len)
 {
-	if (flags->sign_c)
-		flags->width--;
 	if (flags->prec > flags->s_len)
 		flags->width -= flags->prec;
 	else
@@ -84,6 +82,7 @@ void	print_dec(t_flags *flags, char *s, int *len)
 			ft_putchar_fd('0', 1);
 		write(1, s, flags->s_len);
 	}
+	free(s);
 }
 
 void	print_int(t_flags *flags, va_list args, int *len)
@@ -92,9 +91,12 @@ void	print_int(t_flags *flags, va_list args, int *len)
 	long	nbr;
 
 	nbr = (long int)va_arg(args, int);
-	s = ft_itoa_u_base((((nbr >> 63) ^ (nbr)) - (nbr >> 63)), "0123456789");
-	if (!s || (nbr == 0 && flags->prec == 0))
-		s = "";
+	if (nbr == 0 && flags->prec == 0)
+		s = ft_strdup("");
+	else
+		s = ft_itoa_u_base((((nbr >> 63) ^ (nbr)) - (nbr >> 63)), "0123456789");
+	if (!s)
+		return ;
 	if (nbr < 0)
 		flags->sign = 1;
 	if (nbr < 0)
@@ -104,6 +106,8 @@ void	print_int(t_flags *flags, va_list args, int *len)
 		flags->padder = ' ';
 	if (flags->padder == '0')
 		flags->prec = flags->width - flags->sign;
+	if (flags->sign_c)
+		flags->width--;
 	print_dec(flags, s, len);
 }
 
@@ -113,9 +117,12 @@ void	print_unsigned(t_flags *flags, va_list args, int *len)
 	long	nbr;
 
 	nbr = (long int)va_arg(args, unsigned int);
-	s = ft_itoa_u_base(nbr, "0123456789");
-	if (!s || (nbr == 0 && flags->prec == 0))
-		s = "";
+	if (nbr == 0 && flags->prec == 0)
+		s = ft_strdup("");
+	else
+		s = ft_itoa_u_base(nbr, "0123456789");
+	if (!s)
+		return ;
 	flags->sign = 0;
 	flags->sign_c = 0;
 	flags->s_len = (int)ft_strlen(s);
