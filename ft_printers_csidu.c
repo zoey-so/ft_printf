@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printers_csidu.c                                   :+:      :+:    :+:   */
+/*   ft_printers_csidu.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smilch <smilch@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 14:36:22 by smilch            #+#    #+#             */
-/*   Updated: 2026/07/04 18:39:29 by smilch           ###   ########.fr       */
+/*   Updated: 2026/07/04 21:42:44 by smilch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	print_int(t_flags *flags, va_list args, int *len)
 	if (nbr < 0)
 		flags->sign_c = '-';
 	flags->s_len = (int)ft_strlen(s);
-	if (flags->prec >= 0 || flags->minus)
+	if (flags->prec >= 0)
 		flags->padder = ' ';
 	if (flags->padder == '0')
 		flags->prec = flags->width - flags->sign;
@@ -113,13 +113,13 @@ void	print_unsigned(t_flags *flags, va_list args, int *len)
 	long	nbr;
 
 	nbr = (long int)va_arg(args, unsigned int);
-	s = ft_itoa_u(nbr);
+	s = ft_itoa_u_base(nbr, "0123456789");
 	if (!s || (nbr == 0 && flags->prec == 0))
 		s = "";
 	flags->sign = 0;
 	flags->sign_c = 0;
 	flags->s_len = (int)ft_strlen(s);
-	if (flags->prec >= 0 || flags->minus)
+	if (flags->prec >= 0)
 		flags->padder = ' ';
 	if (flags->padder == '0')
 		flags->prec = flags->width;
