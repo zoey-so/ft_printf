@@ -1,12 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smilch <smilch@student.42warsaw.pl>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/04 14:36:42 by smilch            #+#    #+#             */
+/*   Updated: 2026/07/04 15:10:17 by smilch           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
-#include "libft.h"
 #include <stdarg.h>
 
 void	print_flags(t_flags *flags, va_list args, int *len)
 {
 	if (flags->specifier == 's')
-		ft_putstr_fd(va_arg(args, char *), 1);
-	(*len)++;
+		print_string(flags, args, len);
+	else if (flags->specifier == 'c')
+		print_char(flags, args, len);
+	else if (flags->specifier == 'i' || flags->specifier == 'd')
+		print_int(flags, args, len);
+	else if (flags->specifier == 'u')
+		print_unsigned(flags, args, len);
+	else
+		ft_putchar_fd(flags->specifier, 1);
 }
 
 // skip flags other then precision specifier
@@ -41,12 +59,12 @@ void parse_precision(const char **fmt, t_flags *flags, va_list args)
 	(*fmt)++;
 	if (**fmt == '*')
 	{
-		flags->precision = va_arg(args, int);
+		flags->prec = va_arg(args, int);
 		(*fmt)++;
 	}
 	else
 	{
-		flags->precision = ft_atoi(*fmt);
+		flags->prec = ft_atoi(*fmt);
 		while (ft_isdigit(**fmt))
 			(*fmt)++;
 	}
@@ -60,11 +78,18 @@ void	parse_flags(const char **fmt, t_flags *flags)
 		if (**fmt == '-')
 			flags->minus = 1;
 		else if (**fmt == '0')
-			flags->zero = 1;
-		else if (**fmt == ' ')
-			flags->space = 1;
+			flags->padder = '0';
 		else if (**fmt == '+')
-			flags->plus = 1;
+		{
+			flags->sign = 1;
+			flags->sign_c = '+';
+		}
+		else if (**fmt == ' ')
+		{
+			flags->sign = 1;
+			if (flags->sign_c != '+')
+				flags->sign_c = ' ';
+		}
 		else if (**fmt == '#')
 			flags->hash = 1;
 		(*fmt)++;
@@ -78,13 +103,14 @@ void	parse(const char **fmt, va_list args, int *len)
 	t_flags	flags;
 
 	flags.minus = 0;
-	flags.zero = 0;
-	flags.precision = -1;
+	flags.padder = ' ';
+	flags.prec = -1;
 	flags.hash = 0;
-	flags.space = 0;
-	flags.plus = 0;
+	flags.sign_c = 0;
+	flags.sign = 0;
 	flags.specifier = 0;
 	flags.width = 0;
+	flags.s_len = 0;
 
 	parse_flags(fmt, &flags);
 	parse_width(fmt, &flags, args);
