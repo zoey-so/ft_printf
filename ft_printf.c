@@ -6,7 +6,7 @@
 /*   By: smilch <smilch@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 14:36:42 by smilch            #+#    #+#             */
-/*   Updated: 2026/07/04 15:10:17 by smilch           ###   ########.fr       */
+/*   Updated: 2026/07/04 17:41:18 by smilch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,17 @@ void	print_flags(t_flags *flags, va_list args, int *len)
 		print_int(flags, args, len);
 	else if (flags->specifier == 'u')
 		print_unsigned(flags, args, len);
+	else if (flags->specifier == 'x')
+		print_xX(flags, args, len, "0123456789abcdef");
+	else if (flags->specifier == 'X')
+		print_xX(flags, args, len, "0123456789ABCDEF");
+	else if (flags->specifier == 'p')
+		print_pointer(flags, args, len);
 	else
+	{
 		ft_putchar_fd(flags->specifier, 1);
+		*len += 1;
+	}
 }
 
 // skip flags other then precision specifier
@@ -91,7 +100,7 @@ void	parse_flags(const char **fmt, t_flags *flags)
 				flags->sign_c = ' ';
 		}
 		else if (**fmt == '#')
-			flags->hash = 1;
+			flags->hash = 2;
 		(*fmt)++;
 	}
 }

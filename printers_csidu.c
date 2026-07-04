@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printers.c                                         :+:      :+:    :+:   */
+/*   printers_csidu.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smilch <smilch@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 14:36:22 by smilch            #+#    #+#             */
-/*   Updated: 2026/07/04 14:57:19 by smilch           ###   ########.fr       */
+/*   Updated: 2026/07/04 17:37:44 by smilch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 void	print_string(t_flags *flags, va_list args, int *len)
 {
@@ -58,7 +57,7 @@ void	print_char(t_flags *flags, va_list args, int *len)
 	*len += 1;
 }
 
-void	print_dec(t_flags *flags, char *s)
+void	print_dec(t_flags *flags, char *s, int *len)
 {
 	if (flags->sign_c)
 		flags->width--;
@@ -66,21 +65,22 @@ void	print_dec(t_flags *flags, char *s)
 		flags->width -= flags->prec;
 	else
 		flags->width -= flags->s_len;
+	*len += flags->s_len;
 	if (flags->minus)
 	{
-		if (flags->sign_c)
+		if (flags->sign_c && (*len)++)
 			ft_putchar_fd(flags->sign_c, 1);
-		while (flags->prec-- > flags->s_len)
+		while (flags->prec-- > flags->s_len && (*len)++)
 			ft_putchar_fd('0', 1);
 		write(1, s, flags->s_len);
 	}
-	while (flags->width-- > 0)
+	while (flags->width-- > 0 && (*len)++)
 		ft_putchar_fd(flags->padder, 1);
 	if (!flags->minus)
 	{
-		if (flags->sign_c)
+		if (flags->sign_c && (*len)++)
 			ft_putchar_fd(flags->sign_c, 1);
-		while (flags->prec-- > flags->s_len)
+		while (flags->prec-- > flags->s_len && (*len)++)
 			ft_putchar_fd('0', 1);
 		write(1, s, flags->s_len);
 	}
@@ -104,15 +104,7 @@ void	print_int(t_flags *flags, va_list args, int *len)
 		flags->padder = ' ';
 	if (flags->padder == '0')
 		flags->prec = flags->width - flags->sign;
-	if (flags->prec > flags->s_len && flags->width > flags->prec + flags->sign)
-		*len += flags->width;
-	else if (flags->prec > flags->s_len)
-		*len += flags->prec + flags->sign;
-	else if (flags->width > flags->s_len + flags->sign)
-		*len += flags->width;
-	else
-		*len += flags->s_len + flags->sign;
-	print_dec(flags, s);
+	print_dec(flags, s, len);
 }
 
 void	print_unsigned(t_flags *flags, va_list args, int *len)
@@ -131,13 +123,5 @@ void	print_unsigned(t_flags *flags, va_list args, int *len)
 		flags->padder = ' ';
 	if (flags->padder == '0')
 		flags->prec = flags->width;
-	if (flags->prec > flags->s_len && flags->width > flags->prec)
-		*len += flags->width;
-	else if (flags->prec > flags->s_len)
-		*len += flags->prec + flags->sign;
-	else if (flags->width > flags->s_len)
-		*len += flags->width;
-	else
-		*len += flags->s_len;
-	print_dec(flags, s);
+	print_dec(flags, s, len);
 }

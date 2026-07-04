@@ -13,12 +13,14 @@ SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_memchr.c ft_memcmp.c  \
 		ft_striteri.c ft_putchar_fd.c ft_putendl_fd.c \
 		ft_putnbr_fd.c ft_putstr_fd.c ft_split.c ft_itoa.c \
 		ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c \
-		ft_itoa_u.c \
-		ft_printf.c printers_csidu.c
+		ft_itoa_u.c ft_itoa_u_base.c \
+		ft_printf.c printers_csidu.c printers_xXp.c
 NAME = libft.a
 OBJECTS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 all: $(NAME)
+
+bonus: all
 
 $(OBJ_DIR):
 	mkdir -p $@
@@ -36,4 +38,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

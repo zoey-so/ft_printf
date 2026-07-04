@@ -21,4 +21,6 @@ void	print_string(t_flags *flags, va_list args, int *len);
 void	print_char(t_flags *flags, va_list args, int *len);
 void	print_int(t_flags *flags, va_list args, int *len);
 void	print_unsigned(t_flags *flags, va_list args, int *len);
+void	print_pointer(t_flags *flags, va_list args, int *len);
+void	print_xX(t_flags *flags, va_list args, int *len, char *base);
 #endif

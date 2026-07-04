@@ -6,7 +6,7 @@
 /*   By: smilch <smilch@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:51:33 by smilch            #+#    #+#             */
-/*   Updated: 2026/07/04 13:04:18 by smilch           ###   ########.fr       */
+/*   Updated: 2026/07/04 16:35:37 by smilch           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,5 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 //additional
 char	*ft_itoa_u(long int n);
+char	*ft_itoa_u_base(unsigned long long nbr, char *base);
 #endif
