@@ -51,8 +51,8 @@ void	print_x(t_flags *flags, va_list args, int *len, char *base)
 		flags->hash = 0;
 	if (flags->prec >= 0)
 		flags->padder = ' ';
-	flags->width -= flags->hash;
 	*len += flags->hash;
+	flags->width -= flags->hash;
 	if (flags->padder == '0')
 		flags->prec = flags->width;
 	if (nbr == 0 && flags->prec == 0)
@@ -77,18 +77,19 @@ void	print_pointer(t_flags *flags, va_list args, int *len)
 
 	nbr = (unsigned long long)va_arg(args, void *);
 	flags->hash = 2;
+	s = ft_itoa_u_base(nbr, "0123456789abcdef");
 	if (flags->prec >= 0)
 		flags->padder = ' ';
+	if (nbr == 0)
+		s = ft_strdup("(nil)");
+	if (nbr == 0)
+		flags->hash = 0;
+	if (!s)
+		return ;
 	flags->width -= flags->hash;
 	*len += flags->hash;
 	if (flags->padder == '0')
 		flags->prec = flags->width;
-	if (nbr == 0 && flags->prec == 0)
-		s = ft_strdup("");
-	else
-		s = ft_itoa_u_base(nbr, "0123456789abcdef");
-	if (!s)
-		return ;
 	flags->s_len = (int)ft_strlen(s);
 	if (flags->prec > flags->s_len)
 		flags->width -= flags->prec;

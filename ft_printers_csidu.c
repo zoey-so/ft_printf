@@ -17,7 +17,9 @@ void	print_string(t_flags *flags, va_list args, int *len)
 	char	*s;
 
 	s = va_arg(args, char *);
-	if (!s)
+	if (!s && flags->prec >= 0 && flags->prec < 6)
+		s = "";
+	else if (!s)
 		s = "(null)";
 	flags->s_len = (int)ft_strlen(s);
 	if (flags->prec >= 0 && flags->prec < flags->s_len)
@@ -28,7 +30,7 @@ void	print_string(t_flags *flags, va_list args, int *len)
 		if (flags->minus)
 			write(1, s, flags->s_len);
 		while (flags->width-- > flags->s_len)
-			ft_putchar_fd(flags->padder, 1);
+			ft_putchar_fd(' ', 1);
 		if (!flags->minus)
 			write(1, s, flags->s_len);
 		return ;
@@ -48,7 +50,7 @@ void	print_char(t_flags *flags, va_list args, int *len)
 		if (flags->minus)
 			ft_putchar_fd(c, 1);
 		while ((flags->width)-- > 1)
-			ft_putchar_fd(flags->padder, 1);
+			ft_putchar_fd(' ', 1);
 		if (!flags->minus)
 			ft_putchar_fd(c, 1);
 		return ;

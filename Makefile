@@ -39,6 +39,7 @@ NC = \033[0m
 all: $(NAME)
 
 bonus: all
+	@echo "$(GREEN)Bonus done"
 
 $(OBJ_DIR):
 	@mkdir -p $@
